@@ -14,18 +14,18 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        apt-transport-https \
-        ca-certificates \
-        dirmngr \
-        gnupg \
-        wget \
-        git \
-        unzip \
-        build-essential \
-        openjdk-8-jdk \
-        ant \
-        maven \
-        locales && \
+    apt-transport-https \
+    ca-certificates \
+    dirmngr \
+    gnupg \
+    wget \
+    git \
+    unzip \
+    build-essential \
+    openjdk-8-jdk \
+    ant \
+    maven \
+    locales && \
     rm -rf /var/lib/apt/lists/* && \
     locale-gen en_US.UTF-8
 
@@ -36,9 +36,9 @@ RUN set -eux; \
     echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1604/x86_64 /" > /etc/apt/sources.list.d/nvidia-ml.list; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-        cuda-toolkit-10-1 \
-        libcudnn7 \
-        libcudnn7-dev; \
+    cuda-toolkit-10-1 \
+    libcudnn7 \
+    libcudnn7-dev; \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/jcuda
@@ -85,18 +85,20 @@ RUN set -eux; \
     echo 'Acquire::AllowDowngradeToInsecureRepositories "true";' >> /etc/apt/apt.conf.d/99archive-insecure; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-        build-essential \
-        libgomp1 \
-        locales \
-        gawk \
-        perl \
-        perl-modules; \
+    build-essential \
+    libgomp1 \
+    locales \
+    gawk \
+    perl \
+    perl-modules; \
     rm -rf /var/lib/apt/lists/*; \
     locale-gen en_US.UTF-8
 
 WORKDIR /app
 
-COPY --from=build-env /opt/juicebox/Juicebox-${JUICEBOX_VERSION}/out/artifacts/juicer_tools_jar/juicer_tools.jar /app
+COPY --from=build-env /opt/juicebox/Juicebox-${JUICEBOX_VERSION}/lib/artifacts/* /app
+
+ENV PATH=/app/Juicebox_jar:/app/juicer_tools_jar:$PATH
 
 COPY juicer_tools /usr/local/bin/
 RUN chmod +x /usr/local/bin/juicer_tools
