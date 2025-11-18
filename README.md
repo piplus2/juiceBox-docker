@@ -23,5 +23,5 @@ docker build -t juicebox:1.13.01 .
 Juicer Tools can be run with a custom maximum memory for Java:
 
 ```bash
-docker run juicebox:1.13.01 juicer_tools -Xmx[max_memory_value] <juicer_tools_commad> <arguments>
+docker run --gpus all -e "_JAVA_OPTIONS=-Xmx16g" juicebox:1.13.01 juicer_tools <juicer_tools_command> <arguments>
 ```
